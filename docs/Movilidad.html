@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Movilidad Barrio Palermo Sur</title>
+
+    <!-- CSS externo de Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- CSS propio -->
+    <link rel="stylesheet" href="Movilidad.css">
+</head>
+<body>
+    <header>
+        <img src="INSUMOS/LOGO.jpg" alt="Logo Barrio Palermo Sur" />
+        Movilidad Barrio Palermo Sur
+    </header>
+
+    <main>
+        <div id="map"></div>
+
+        <div class="legend">
+            <div class="legend-title">Leyenda</div>
+            <div class="legend-item">
+                <div class="legend-dashed"></div>
+                <div>Barrio Palermo Sur</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background-color:#00AA00;"></div>
+                <div>Rutas Zonales SITP</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-marker"></div>
+                <div>Paraderos SITP</div>
+            </div>
+        </div>
+    </main>
+
+    <footer>Todos los derechos reservados</footer>
+
+    <!-- JS externo -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+
+    <!-- JS propio -->
+    <script src="Movilidad.js"></script>
+</body>
+</html>

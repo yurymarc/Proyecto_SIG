@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xml:lang="es"><Esri><CreaDate>20250813</CreaDate><CreaTime>10094700</CreaTime><ArcGISFormat>1.0</ArcGISFormat><SyncOnce>TRUE</SyncOnce><DataProperties><lineage><Process ToolSource="c:\program files\arcgis\pro\Resources\ArcToolbox\toolboxes\Conversion Tools.tbx\JSONToFeatures" Date="20250813" Time="100947">JSONToFeatures "C:\Users\cristian.rojas\Desktop\Proyecto sig\INSUMOS\CONST.geojson" "C:\Users\cristian.rojas\Desktop\Proyecto sig\INSUMOS\Const_temp.shp" POLYGON</Process></lineage></DataProperties></Esri></metadata>
