@@ -3,50 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Recorrido Virtual - Barrio Palermo Sur</title>
+  <title>Recorrido Exacto - Barrio Palermo Sur</title>
   <link href="https://cesium.com/downloads/cesiumjs/releases/1.132/Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
-  <link rel="icon" href="INSUMOS/LOGO.jpg" type="image/jpeg">
   <style>
     html, body { width: 100%; height: 100%; margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f0f0f0; }
-    header { background-color: #004080; color: white; font-size: 2em; font-weight: bold; padding: 20px; display: flex; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
-    header img { height: 50px; margin-right: 20px; }
-    #cesiumContainer { width: 100%; height: calc(100% - 90px); }
-    footer { background-color: #004080; color: white; text-align: center; padding: 10px 0; font-size: 1em; box-shadow: 0 -2px 8px rgba(0,0,0,0.25); }
+    #cesiumContainer { width: 100%; height: 100%; }
   </style>
 </head>
 <body>
-  <header>
-    <img src="INSUMOS/LOGO.jpg" alt="Logo Barrio Palermo Sur">
-    Recorrido Virtual - Barrio Palermo Sur
-  </header>
+<div id="cesiumContainer"></div>
 
-  <div id="cesiumContainer"></div>
-  <footer>Todos los derechos reservados</footer>
+<script src="https://cesium.com/downloads/cesiumjs/releases/1.132/Build/Cesium/Cesium.js"></script>
+<script>
+Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxYTE1ODFiZS05OTNhLTQ2ZDMtYWQyZi0yNDIyMDc1MjFiZWEiLCJpZCI6MzMxMzE4LCJpYXQiOjE3NTUwMjU4NTd9.mRc9Kqm3aGWap7lYt4nQcw2UKRFlVFNYFwPelgX1L_M';
 
-  <script src="https://cesium.com/downloads/cesiumjs/releases/1.132/Build/Cesium/Cesium.js"></script>
-  <script>
-    // Token real de Cesium
-    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxYTE1ODFiZS05OTNhLTQ2ZDMtYWQyZi0yNDIyMDc1MjFiZWEiLCJpZCI6MzMxMzE4LCJpYXQiOjE3NTUwMjU4NTd9.mRc9Kqm3aGWap7lYt4nQcw2UKRFlVFNYFwPelgX1L_M';
+const viewer = new Cesium.Viewer('cesiumContainer', {
+    sceneMode: Cesium.SceneMode.SCENE3D,
+    baseLayerPicker: true,
+    timeline: true,
+    animation: true
+});
 
-    const viewer = new Cesium.Viewer('cesiumContainer', {
-      sceneMode: Cesium.SceneMode.SCENE3D,
-      baseLayerPicker: true,
-      timeline: true,
-      animation: true,
-      homeButton: true,
-      navigationHelpButton: true,
-      infoBox: false,
-      selectionIndicator: false
-    });
+const alturaPorPiso = 3;
 
-    const alturaPorPiso = 3;
+// Cargar edificios extruidos
+async function loadPredios() {
+    const predios = await Cesium.GeoJsonDataSource.load('INSUMOS/CONST_PALERMO_SUR.geojson', { clampToGround: false });
+    viewer.dataSources.add(predios);
 
-    // Cargar edificios extruidos
-    async function loadPredios() {
-      const predios = await Cesium.GeoJsonDataSource.load('INSUMOS/CONST_PALERMO_SUR.geojson', { clampToGround: false });
-      viewer.dataSources.add(predios);
-
-      predios.entities.values.forEach(e => {
+    predios.entities.values.forEach(e => {
         const pol = e.polygon;
         if (!pol) return;
         const props = e.properties || {};
@@ -56,82 +41,70 @@
         pol.material = Cesium.Color.fromCssColorString("#7a8a50").withAlpha(0.9);
         pol.outline = true;
         pol.outlineColor = Cesium.Color.BLACK;
-
         pol.extrudedHeight = altura;
         pol.extrudedHeightReference = Cesium.HeightReference.RELATIVE_TO_GROUND;
-      });
-    }
+    });
+}
 
-    // Cargar rutas y muñeco caminante siguiendo la ruta
-    async function loadWalkerFollowRoute() {
-      const rutas = await Cesium.GeoJsonDataSource.load('INSUMOS/RUTAS_GEO/RUTAS_Palermo_Sur_Ajustadas_2.geojson', { clampToGround: true });
-      viewer.dataSources.add(rutas);
+// Recorrido exacto sobre los vértices de las vías
+async function loadWalkerExacto() {
+    const rutas = await Cesium.GeoJsonDataSource.load('INSUMOS/RUTAS_GEO/RUTAS_Palermo_Sur_Ajustadas_2.geojson', { clampToGround: true });
+    viewer.dataSources.add(rutas);
 
-      // Dibujar rutas
-      rutas.entities.values.forEach(e => {
+    rutas.entities.values.forEach(e => {
         if (e.polyline) {
-          e.polyline.material = Cesium.Color.RED;
-          e.polyline.width = 3;
+            e.polyline.material = Cesium.Color.RED;
+            e.polyline.width = 3;
         }
-      });
+    });
 
-      const sampledPos = new Cesium.SampledPositionProperty();
-      let currentTime = Cesium.JulianDate.now();
-      const secondsStep = 1; // velocidad del muñeco
+    const sampledPos = new Cesium.SampledPositionProperty();
+    let currentTime = Cesium.JulianDate.now();
+    const velocidad = 4.5; // m/s
 
-      for (const ruta of rutas.entities.values) {
-        let coords = [];
-
-        // Si tiene polyline.positions
-        if (ruta.polyline && ruta.polyline.positions) {
-          coords = ruta.polyline.positions.getValue(currentTime);
+    // Recorrer cada polilínea y todos sus vértices exactamente
+    rutas.entities.values.forEach(e => {
+        if (e.polyline && e.polyline.positions) {
+            const positions = e.polyline.positions.getValue(currentTime);
+            for (let i = 0; i < positions.length - 1; i++) {
+                const start = positions[i];
+                const end = positions[i + 1];
+                const dist = Cesium.Cartesian3.distance(start, end);
+                const duration = dist / velocidad;
+                currentTime = Cesium.JulianDate.addSeconds(currentTime, duration, new Cesium.JulianDate());
+                sampledPos.addSample(currentTime, end);
+            }
         }
-        // Si no, extraer del GeoJSON LineString
-        else if (ruta.geometry?.type === "LineString") {
-          coords = ruta.geometry.coordinates;
-        }
+    });
 
-        if (!coords) continue;
-
-        // Agregar cada punto al SampledPositionProperty
-        for (const pos of coords) {
-          const cart = Array.isArray(pos)
-            ? Cesium.Cartesian3.fromDegrees(pos[0], pos[1], pos[2] || 0)
-            : pos;
-          sampledPos.addSample(currentTime, cart);
-          currentTime = Cesium.JulianDate.addSeconds(currentTime, secondsStep, new Cesium.JulianDate());
-        }
-      }
-
-      // Crear muñeco
-      const walker = viewer.entities.add({
+    const walker = viewer.entities.add({
         position: sampledPos,
         orientation: new Cesium.VelocityOrientationProperty(sampledPos),
         model: {
-          uri: 'INSUMOS/Cesium_Man.glb',
-          scale: 1.5,
-          runAnimations: true
+            uri: 'INSUMOS/Cesium_Man.glb',
+            scale: 1.5,
+            runAnimations: true
         },
         path: {
-          resolution: 1,
-          material: new Cesium.PolylineGlowMaterialProperty({ glowPower: 0.3, color: Cesium.Color.YELLOW }),
-          width: 3
+            resolution: 1,
+            material: new Cesium.PolylineGlowMaterialProperty({ glowPower: 0.3, color: Cesium.Color.YELLOW }),
+            width: 3
         }
-      });
-
-      viewer.trackedEntity = walker;
-    }
-
-    // Ejecutar funciones
-    loadPredios();
-    loadWalkerFollowRoute();
-
-    // Vista inicial
-    viewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(-74.11023496302883, 4.541232778615113, 1200),
-      orientation: { heading: 0, pitch: Cesium.Math.toRadians(-45) }
     });
-  </script>
+
+    viewer.trackedEntity = walker;
+}
+
+// Ejecutar cargas
+loadPredios();
+loadWalkerExacto();
+
+// Cámara inicial
+viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(-74.11023496302883, 4.541232778615113, 1200),
+    orientation: { heading: 0, pitch: Cesium.Math.toRadians(-45), roll: 0 }
+});
+</script>
 </body>
 </html>
 
