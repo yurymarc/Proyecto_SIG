@@ -1,38 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Parques del Barrio Palermo Sur</title>
-
-  <!-- Estilos Leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
-  <!-- Tus estilos -->
-  <link rel="stylesheet" href="parques.css" />
+  <meta charset="UTF-8">
+  <title>Parques en Palermo Sur</title>
+  <link rel="stylesheet" href="parques.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
+  <header>
+    <img src="INSUMOS/logo.jpg" alt="Logo" class="logo">
+    <h1>Parques de Palermo Sur</h1>
+  </header>
 
-<header>
-  <img src="INSUMOS/LOGO.jpg" alt="Logo Barrio Palermo Sur" />
-  Parques del Barrio Palermo Sur
-</header>
+  <main>
+    <div id="map"></div>
 
-<main>
-  <div id="map"></div>
-  <div id="info">
-    <h2 id="info-title">Descripción general</h2>
-    <p id="info-text">Este espacio está reservado para mostrar información general sobre el barrio Palermo Sur o cualquier contenido que quieras incluir.</p>
-  </div>
-</main>
+    <!-- Ventana flotante -->
+    <div id="info-window" class="info-window">
+      <button id="close-btn">✖</button>
+      <h3 id="info-title">Instrucciones</h3>
+      <div id="info-content">
+        <p>Haz <b>clic</b> en cualquier parque para ver su nombre, descripción y fotografía.</p>
+      </div>
+    </div>
+  </main>
 
-<footer>Todos los derechos reservados</footer>
-
-<!-- Scripts Leaflet y Proj4 -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.0/proj4.js"></script>
-
-<!-- Tu JavaScript -->
-<script src="parques.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="parques.js"></script>
+    <!-- PIE DE PÁGINA -->
+  <footer>
+    <p>© 2025 Todos los derechos reservados</p>
+  </footer>
 </body>
 </html>
+
+
+
+

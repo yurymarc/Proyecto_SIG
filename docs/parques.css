@@ -1,15 +1,6 @@
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
-}
-
 body {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
 
 header {
@@ -17,56 +8,73 @@ header {
   color: white;
   display: flex;
   align-items: center;
-  padding: 40px 20px;
-  font-size: 2.5em;
-  font-weight: bold;
-  user-select: none;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-  flex-shrink: 0;
+  padding: 10px 20px;
+  position: fixed;   /* 🔥 fijo arriba */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;      /* altura del header */
+  z-index: 1000;
 }
 
-header img {
-  height: 60px;
-  margin-right: 20px;
+header .logo {
+  height: 40px;
+  margin-right: 10px;
 }
 
-main {
-  flex-grow: 1;
-  background: white;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  display: flex;
-  position: relative;
-}
-
+/* Mapa ajustado */
 #map {
-  width: 50vw;
-  height: 100%;
+  width: 100%;
+  height: calc(100vh - 110px); /* 70px header + 40px footer aprox */
+  margin-top: 70px; /* deja solo el espacio del header */
 }
 
-#info {
-  width: 50vw;
-  padding: 20px;
-  overflow-y: auto;
-  box-sizing: border-box;
-  background-color: #ffffff;
+.info-window {
+  position: absolute;
+  top: 70px; /* más abajo porque ahora el header está fijo */
+  right: 20px;
+  width: 300px;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  z-index: 1000;
+}
+
+.info-window h3 {
+  margin-top: 0;
   color: #004080;
 }
 
-#info h2 {
-  margin-top: 0;
+#close-btn {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  float: right;
+  cursor: pointer;
 }
 
+/* Footer fijo */
 footer {
-  background-color: #004080;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #003f80;
   color: white;
   text-align: center;
-  padding: 12px 0;
-  font-size: 1em;
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.25);
-  user-select: none;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 100;
+  padding: 4px;       /* altura del rectángulo fija */
+  font-size: 10px;     /* letra más grande */
+  line-height: 16px;   /* asegura que no sobrepase la altura */
+  z-index: 1000;
 }
+
+/* Popups siempre visibles por encima del mapa y footer */
+.leaflet-popup {
+  z-index: 2000 !important;
+}
+
+
+
+
+

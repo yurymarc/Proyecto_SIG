@@ -1,79 +1,55 @@
-const map = L.map('map').setView([4.617, -74.070], 15);
+// Inicializar mapa
+var map = L.map("map");
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19,
-  attribution: '© OpenStreetMap'
+// Capa base
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-const defaultTitle = "Descripción general";
-const defaultText = "Este espacio está reservado para mostrar información general sobre el barrio Palermo Sur o cualquier contenido que quieras incluir.";
-
-// Función para transformar coordenadas si están en EPSG:3857
-function transformCoordinates(coordinates) {
-  if (typeof coordinates[0] === 'number') {
-    return proj4('EPSG:3857', 'EPSG:4326', coordinates);
-  } else {
-    return coordinates.map(transformCoordinates);
-  }
-}
-
-// --------------------
-// 1️⃣ Mostrar polígono del barrio (solo visual)
-// --------------------
-const barriosURL = 'https://bogota-laburbano.opendatasoft.com/api/explore/v2.1/catalog/datasets/barrios-bogota/exports/geojson';
-fetch(barriosURL)
-  .then(res => res.json())
+// Cargar GeoJSON
+fetch("INSUMOS/Parques_P.geojson")
+  .then(response => response.json())
   .then(data => {
-    const barrioFeature = data.features.find(f => f.properties.nombre.toLowerCase().includes('palermo sur'));
-    if (!barrioFeature) return;
-
-    L.geoJSON(barrioFeature, {
+    // Agregar GeoJSON con estilo verde
+    var parquesLayer = L.geoJSON(data, {
       style: {
-        color: '#004080',
-        weight: 3,
-        fillOpacity: 0,
-        dashArray: '6 6'
-      },
-      interactive: false
-    }).addTo(map);
-  })
-  .catch(e => console.error('Error cargando polígono barrio:', e));
-
-// --------------------
-// 2️⃣ Cargar parques interactivos
-// --------------------
-fetch('INSUMOS/Parques_Palermo.geojson')
-  .then(res => res.json())
-  .then(data => {
-    data.features.forEach(feature => {
-      if (feature.geometry.type === "Polygon" || feature.geometry.type === "MultiPolygon") {
-        feature.geometry.coordinates = transformCoordinates(feature.geometry.coordinates);
-      }
-    });
-
-    const parquesLayer = L.geoJSON(data, {
-      style: {
-        color: 'green',
+        color: "green",
         weight: 2,
-        fillOpacity: 0.3
+        fillColor: "lightgreen",
+        fillOpacity: 0.5
       },
-      onEachFeature: function(feature, layer) {
-        layer.on('click', (e) => {
-          document.getElementById('info-title').textContent = "Parque Palermo Sur";
-          document.getElementById('info-text').textContent = "Se debe registrar";
-          e.originalEvent.stopPropagation();
+      onEachFeature: function (feature, layer) {
+        // Tooltip al pasar el mouse
+        layer.bindTooltip(feature.properties.NOMBRE_PAR);
+
+        // Evento click
+        layer.on("click", function () {
+          const infoWindow = document.getElementById("info-window");
+          const infoTitle = document.getElementById("info-title");
+          const infoContent = document.getElementById("info-content");
+
+          infoTitle.textContent = feature.properties.NOMBRE_PAR;
+          infoContent.innerHTML = `
+            <p>${feature.properties.DESCRIP}</p>
+            <img src="INSUMOS/${feature.properties.NOMBRE_PAR}.jpg" 
+                 alt="${feature.properties.NOMBRE_PAR}" 
+                 style="width:100%; margin-top:10px; border-radius:8px;">
+          `;
+          infoWindow.style.display = "block";
+
+          // Centrar y hacer zoom en el parque seleccionado
+          map.fitBounds(layer.getBounds(), { maxZoom: 18 });
         });
       }
     }).addTo(map);
 
+    // Ajustar vista inicial al barrio (todos los parques)
     map.fitBounds(parquesLayer.getBounds());
-  })
-  .catch(err => console.error('Error cargando GeoJSON de parques:', err));
+  });
 
-// --------------------
-// 3️⃣ Click fuera de parques resetea panel
-// --------------------
-map.on('click', () => {
-  document.getElementById('info-title').textContent = defaultTitle;
-  document.getElementById('info-text').textContent = defaultText;
+// Botón de cerrar ventana
+document.getElementById("close-btn").addEventListener("click", function () {
+  document.getElementById("info-window").style.display = "none";
 });
+
+
