@@ -6,11 +6,31 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-// Cargar GeoJSON
+// --------------------
+// Mostrar polígono del barrio (solo visual)
+const barriosURL = 'https://bogota-laburbano.opendatasoft.com/api/explore/v2.1/catalog/datasets/barrios-bogota/exports/geojson';
+fetch(barriosURL)
+  .then(res => res.json())
+  .then(data => {
+    const barrioFeature = data.features.find(f => f.properties.nombre.toLowerCase().includes('palermo sur'));
+    if (!barrioFeature) return;
+
+    L.geoJSON(barrioFeature, {
+      style: {
+        color: '#004080',
+        weight: 3,
+        fillOpacity: 0,
+        dashArray: '6 6'
+      },
+      interactive: false
+    }).addTo(map);
+  })
+  .catch(e => console.error('Error cargando polígono barrio:', e));
+
+// Cargar GeoJSON de parques
 fetch("INSUMOS/Parques_P.geojson")
   .then(response => response.json())
   .then(data => {
-    // Agregar GeoJSON con estilo verde
     var parquesLayer = L.geoJSON(data, {
       style: {
         color: "green",
@@ -19,10 +39,7 @@ fetch("INSUMOS/Parques_P.geojson")
         fillOpacity: 0.5
       },
       onEachFeature: function (feature, layer) {
-        // Tooltip al pasar el mouse
         layer.bindTooltip(feature.properties.NOMBRE_PAR);
-
-        // Evento click
         layer.on("click", function () {
           const infoWindow = document.getElementById("info-window");
           const infoTitle = document.getElementById("info-title");
@@ -36,8 +53,6 @@ fetch("INSUMOS/Parques_P.geojson")
                  style="width:100%; margin-top:10px; border-radius:8px;">
           `;
           infoWindow.style.display = "block";
-
-          // Centrar y hacer zoom en el parque seleccionado
           map.fitBounds(layer.getBounds(), { maxZoom: 18 });
         });
       }
@@ -51,5 +66,6 @@ fetch("INSUMOS/Parques_P.geojson")
 document.getElementById("close-btn").addEventListener("click", function () {
   document.getElementById("info-window").style.display = "none";
 });
+
 
 
