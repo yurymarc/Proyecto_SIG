@@ -45,7 +45,7 @@ main {
     flex-direction: row;
     align-items: center; /* centra verticalmente dentro de la fila */
     justify-content: center;
-    gap: 20px;
+    gap: 130px;
 }
 
 .descripcion .texto {
@@ -60,10 +60,8 @@ main {
 }
 
 .descripcion img {
-    width: 100%;
-    max-width: 300px;
-    border-radius: 8px;
-    border: 1px solid #aaa;
+    height: 200px;
+    width: auto;   /* mantiene proporción */
 }
 
 footer {
