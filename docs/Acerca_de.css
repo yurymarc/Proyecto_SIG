@@ -1,0 +1,88 @@
+/* Estilos generales */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+
+    /* Flexbox en toda la página */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+  background-color: #004080;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 40px 20px;
+  font-size: 2.5em;
+  font-weight: bold;
+  user-select: none;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  flex-shrink: 0;
+}
+header img {
+  height: 60px;
+  margin-right: 20px;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: justify;   /* Justificación aplicada al main */
+}
+
+.descripcion {
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* centra verticalmente dentro de la fila */
+    justify-content: center;
+    gap: 20px;
+}
+
+.descripcion .texto {
+    flex: 2;
+    text-align: justify;
+    line-height: 1.6;
+}
+
+.descripcion .imagen {
+    flex: 1;
+    text-align: center;
+}
+
+.descripcion img {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 8px;
+    border: 1px solid #aaa;
+}
+
+footer {
+  background-color: #004080;
+  color: white;
+  text-align: center;
+  padding: 12px 0;
+  font-size: 1em;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.25);
+  user-select: none;
+  flex-shrink: 0;
+}
+
+/* Adaptación para pantallas pequeñas */
+@media (max-width: 768px) {
+    .descripcion {
+        flex-direction: column;
+    }
+    .descripcion .imagen img {
+        max-width: 100%;
+    }
+}
