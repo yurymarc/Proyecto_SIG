@@ -107,7 +107,15 @@ function cargarParaderosFiltrados(barrioFeature) {
                 },
                 onEachFeature: (feature, layer) => {
                     if (feature.properties) {
-                        let popupContent = `<div class="popup-image-placeholder">Espacio para imagen futura</div>`;
+                        const cenefa = feature.properties.cenefa; 
+                        const fotoURL = `INSUMOS/FOTOS/${cenefa}.jpg`;
+                        let popupContent = `
+                        <div class="popup-image-placeholder">
+                            <img src="${fotoURL}" 
+                                alt="Foto del paradero"
+                                onerror="this.src='INSUMOS/FOTOS/default.jpg'" 
+                                style="width:100%;height:100%;object-fit:cover;border-radius:6px;" />
+                        </div>`;
                         popupContent += `<strong>Barrio:</strong> ${barrioFeature.properties.nombre || 'N/D'}<br>`;
                         popupContent += `<strong>Dirección bandera:</strong> ${feature.properties.direccion_bandera || 'N/D'}<br>`;
                         popupContent += `<strong>Cenefa:</strong> ${feature.properties.cenefa || 'N/D'}<br>`;
