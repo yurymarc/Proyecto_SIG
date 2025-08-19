@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ubicación Barrio Palermo Sur con Límite Bogotá (Unido Localidades)</title>
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<!-- CSS propio -->
+<link rel="stylesheet" href="ubicacion.css" />
+</head>
+<body>
+
+<header>
+  <img src="INSUMOS/LOGO.jpg" alt="Logo Barrio Palermo Sur" />
+  Ubicación Barrio Palermo Sur
+</header>
+
+<main>
+  <div id="map"></div>
+
+  <!-- Leyenda -->
+  <div class="legend" id="legend">
+    <div class="legend-title">Leyenda</div>
+    <div class="legend-item">
+      <div class="legend-symbol symbol-limite"></div>
+      <div>Límite de Bogotá</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-symbol symbol-barrio"></div>
+      <div>Barrio Palermo Sur</div>
+    </div>
+  </div>
+</main>
+
+<footer>Todos los derechos reservados</footer>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Turf.js -->
+<script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+
+<!-- JS propio -->
+<script src="ubicacion.js"></script>
+</body>
+</html>
+
