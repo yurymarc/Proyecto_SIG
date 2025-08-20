@@ -1,0 +1,80 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  background-color: #004080;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  position: fixed;   /* 🔥 fijo arriba */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;      /* altura del header */
+  z-index: 1000;
+}
+
+header .logo {
+  height: 40px;
+  margin-right: 10px;
+}
+
+/* Mapa ajustado */
+#map {
+  width: 100%;
+  height: calc(100vh - 110px); /* 70px header + 40px footer aprox */
+  margin-top: 70px; /* deja solo el espacio del header */
+}
+
+.info-window {
+  position: absolute;
+  top: 70px; /* más abajo porque ahora el header está fijo */
+  right: 20px;
+  width: 300px;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  z-index: 1000;
+}
+
+.info-window h3 {
+  margin-top: 0;
+  color: #004080;
+}
+
+#close-btn {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  float: right;
+  cursor: pointer;
+}
+
+/* Footer fijo */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #003f80;
+  color: white;
+  text-align: center;
+  padding: 4px;       /* altura del rectángulo fija */
+  font-size: 10px;     /* letra más grande */
+  line-height: 16px;   /* asegura que no sobrepase la altura */
+  z-index: 1000;
+}
+
+/* Popups siempre visibles por encima del mapa y footer */
+.leaflet-popup {
+  z-index: 2000 !important;
+}
+
+
+
+
+

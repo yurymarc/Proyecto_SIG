@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Parques en Palermo Sur</title>
+  <link rel="stylesheet" href="parques.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+  <header>
+    <img src="INSUMOS/logo.jpg" alt="Logo" class="logo">
+    <h1>Parques de Palermo Sur</h1>
+  </header>
+
+  <main>
+    <div id="map"></div>
+
+    <!-- Ventana flotante -->
+    <div id="info-window" class="info-window">
+      <button id="close-btn">✖</button>
+      <h3 id="info-title">Instrucciones</h3>
+      <div id="info-content">
+        <p>Haz <b>clic</b> en cualquier parque para ver su nombre, descripción y fotografía.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="parques.js"></script>
+    <!-- PIE DE PÁGINA -->
+  <footer>
+    <p>© 2025 Todos los derechos reservados</p>
+  </footer>
+</body>
+</html>
+
+
+
+
