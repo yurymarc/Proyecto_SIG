@@ -4,145 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Problemáticas Barrio Palermo Sur</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: url('INSUMOS/Fondo.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #003366;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    header {
-      text-align: center;
-      background: rgba(0, 51, 102, 0.9);
-      color: white;
-      padding: 15px;
-      font-size: 24px;
-      font-weight: bold;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-    }
-
-    .container {
-      flex: 1;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(2, 1fr);
-      gap: 30px;
-      padding: 30px;
-      box-sizing: border-box;
-      justify-items: center;
-      align-items: center;
-    }
-
-    /* Para centrar la última tarjeta */
-    .card:last-child {
-      grid-column: 2 / 3;
-      grid-row: 2 / 3;
-    }
-
-    .card {
-      width: 250px;
-      height: 180px;
-      perspective: 1000px;
-    }
-
-    .card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      transition: transform 0.8s;
-    }
-
-    .card:hover .card-inner {
-      transform: rotateY(180deg);
-    }
-
-    .card-front, .card-back {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      backface-visibility: hidden;
-      border: 2px solid #003366;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      background: rgba(255, 255, 255, 0.85); /* Fondo blanco con transparencia */
-    }
-
-    .card-front {
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-    .card-back {
-      transform: rotateY(180deg);
-      font-size: 14px;
-    }
-
-    footer {
-      text-align: center;
-      background: rgba(0, 51, 102, 0.9);
-      color: white;
-      padding: 12px;
-      font-size: 14px;
-      box-shadow: 0 -2px 5px rgba(0,0,0,0.5);
-    }
-  </style>
+  <link rel="stylesheet" href="problematicas.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
 </head>
 <body>
   <header>Problemáticas Barrio Palermo Sur</header>
 
-  <div class="container">
-    <div class="card">
-      <div class="card-inner">
-        <div class="card-front">Inseguridad</div>
-        <div class="card-back">Este es un problema significativo, co reportes de robos en locales comerciales y a personas, algunos casos terminan en homicidios, lo que preocupa a los residentes. La comunidad ha expresado su rechazo a la violencia y exige acciones para mejorar la seguridad.</div>
-      </div>
+  <div class="main-content">
+    <div class="left-panel" id="cards-container">
+      <!-- Tarjetas generadas desde JS -->
     </div>
 
-    <div class="card">
-      <div class="card-inner">
-        <div class="card-front">Violencia</div>
-        <div class="card-back">Se han denunciado casos de violencia intrafamiliar, sexual y acoso en colegios de la zona.</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-inner">
-        <div class="card-front">Urbanización ilegal</div>
-        <div class="card-back">Parte del barrio se ha desarrollado de manera ilegal, invadiendo zonas de alto riesgo y la estructura ecológica principal de la ciudad. Esto genera problemas de estabilidad de las viviendas, manejo de aguas y el acceso a servicios básicos como agua potable, alcantarillado y energía eléctrica.  </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-inner">
-        <div class="card-front">Pobreza</div>
-        <div class="card-back">Aunque la localidad ha experimentado avances en la reducción de la pobreza, esta sigue eiendo problema en el barrio, como en otras zonas de la localidad, se manifiesta en la falta de acceso a servicios públicos, hacinamiento en viviendas.Un porcentaje de adultos mayores vive en pobreza monetaria, ocupando un alto lugar en la ciudad.</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-inner">
-        <div class="card-front">Conflictos sociales</div>
-        <div class="card-back">Se registran altercados entre hinchas de diferentes equipos, se presentan agresiones con machetes y otras armas cortopunzantes, tambien se registran altos casos de homicio.</div>
-      </div>
+    <div class="right-panel">
+      <div id="map"></div>
     </div>
   </div>
 
-  <footer>
-    © 2025 - Proyecto Problemáticas en Palermo Sur
-  </footer>
+  <footer>© 2025 - Proyecto Problemáticas en Palermo Sur</footer>
+
+  <script src="problematicas.js"></script>
 </body>
 </html>
-
-
-

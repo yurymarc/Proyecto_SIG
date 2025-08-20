@@ -1,89 +1,105 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  color: #003366;
-  background: linear-gradient(to bottom, #f8f9fc, #dfe9f3);
-}
-
-/* Header */
-header {
-  background: #003366;
-  color: white;
   display: flex;
-  align-items: center;
-  padding: 10px 20px;
-}
-.logo {
-  height: 40px;
-  margin-right: 15px;
-}
-header h1 {
-  font-size: 1.5em;
+  flex-direction: column;
+  min-height: 100vh;
+  background: url('INSUMOS/Fondo.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #003366;
 }
 
-/* Mapa */
-#map {
-  height: 400px;
-  width: 100%;
-  border-bottom: 3px solid #003366;
+header {
+  text-align: center;
+  background: rgba(0,51,102,0.9);
+  color: white;
+  padding: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
 }
 
-/* Contenedor de tarjetas */
-.cards-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+.main-content {
+  flex: 1;
+  display: flex;
   gap: 20px;
-  padding: 30px;
-  justify-items: center;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-/* Tarjeta */
+.left-panel {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+  justify-items: center;
+  align-items: start;
+  overflow-y: auto;
+  max-height: calc(100vh - 120px);
+  padding-right: 10px;
+}
+
 .card {
-  width: 280px;
-  height: 160px;
+  width: 100%;
+  aspect-ratio: 1 / 0.9; /* mantiene proporción responsive */
   perspective: 1000px;
 }
+
 .card-inner {
   position: relative;
   width: 100%;
   height: 100%;
-  text-align: center;
-  transition: transform 0.8s;
   transform-style: preserve-3d;
+  transition: transform 0.8s;
 }
+
 .card:hover .card-inner {
   transform: rotateY(180deg);
 }
+
 .card-front, .card-back {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   backface-visibility: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   border: 2px solid #003366;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  background: white;
-  font-weight: bold;
-}
-.card-front {
-  color: #003366;
-}
-.card-back {
-  background: #f0f4f8;
-  color: #003366;
-  transform: rotateY(180deg);
-  padding: 10px;
-  font-size: 0.9em;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  background: rgba(255, 255, 255, 0.85);
 }
 
-/* Footer */
+.card-front {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  font-size: 13px;
+}
+
+.right-panel {
+  flex: 1;
+  height: calc(100vh - 120px);
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  border: 2px solid #003366;
+  border-radius: 12px;
+}
+
 footer {
-  background: #003366;
-  color: white;
   text-align: center;
-  padding: 10px;
-  font-size: 0.9em;
+  background: rgba(0,51,102,0.9);
+  color: white;
+  padding: 12px;
+  font-size: 14px;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.5);
 }
