@@ -128,4 +128,4 @@ function cargarParaderosFiltrados(barrioFeature) {
         .catch(e => {
             alert('Error cargando archivo de paraderos: ' + e);
         });
-}
+} 
