@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vías en el Barrio Palermo Sur</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="vias.css">
+</head>
+<body>
+
+<header>
+  <img src="INSUMOS/LOGO.jpg" alt="Logo Barrio Palermo Sur" />
+  Vías en el Barrio Palermo Sur
+</header>
+
+<main>
+  <div id="map"></div>
+</main>
+
+<footer>Todos los derechos reservados</footer>
+
+<div id="info">
+  <h2>Haz clic en una vía</h2>
+  <p>La información aparecerá aquí</p>
+</div>
+
+<div id="legend">
+  <strong>Leyenda</strong><br /><br />
+  <span class="line-symbol line-via"></span> Vía (línea naranja)<br /><br />
+  <span class="line-symbol line-barrio"></span> Límite Barrio Palermo Sur
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/esri-leaflet@3.0.3/dist/esri-leaflet.js"></script>
+<script src="vias.js"></script>
+
+</body>
+</html>
